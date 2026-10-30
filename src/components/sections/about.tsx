@@ -1,8 +1,8 @@
 import { PhotoSlot } from "@/components/ui/photo-slot";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { business } from "@/content/business";
 import { sections } from "@/content/navigation";
 import { photos } from "@/content/photos";
+import { aboutCopy } from "@/content/sections";
 import { values } from "@/content/values";
 
 const numerals = ["I", "II", "III", "IV", "V", "VI"] as const;
@@ -11,17 +11,7 @@ export function About() {
   return (
     <section id={sections.about} aria-labelledby="about-title" className="section-y">
       <div className="shell">
-        <SectionHeading
-          id="about-title"
-          number="03"
-          eyebrow="Nosotros"
-          title={
-            <>
-              Lo que dicen los de <em className="text-maroon">siempre</em>.
-            </>
-          }
-          intro={`Quien deja una reseña de ${business.name} suele coincidir en estas cuatro cosas.`}
-        />
+        <SectionHeading id="about-title" copy={aboutCopy} />
 
         <div className="mt-14 grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-start lg:gap-20">
           <PhotoSlot photo={photos.about} className="-rotate-1" />

@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { business } from "@/content/business";
 import { sections } from "@/content/navigation";
 import { priceNote, services } from "@/content/services";
+import { servicesCopy } from "@/content/sections";
 
 /** Servicios como una tablilla de precios de las de antes: nombre · · · · precio. */
 export function Services() {
@@ -15,17 +16,10 @@ export function Services() {
     >
       <div className="shell grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-20">
         <div>
-          <SectionHeading
-            id="services-title"
-            number="02"
-            eyebrow="Servicios"
-            title="Lo de siempre, bien hecho."
-            intro={`Cortes para ${business.audience.toLowerCase()}, barba y color. Pregunta sin compromiso: el precio te lo dicen al momento.`}
-            tone="dark"
-          />
+          <SectionHeading id="services-title" copy={servicesCopy} tone="dark" />
           <ButtonLink href={business.phone.href} variant="outlineLight" className="mt-8">
             <PhoneIcon />
-            Preguntar por teléfono
+            {servicesCopy.cta}
           </ButtonLink>
         </div>
 

@@ -2,6 +2,7 @@ import { StripeRule } from "@/components/ui/barber-pole";
 import { business } from "@/content/business";
 import { concept } from "@/content/concept";
 import { navItems } from "@/content/navigation";
+import { footerCopy } from "@/content/sections";
 
 export function SiteFooter() {
   const { address } = business;
@@ -53,12 +54,10 @@ export function SiteFooter() {
         <div className="border-t border-paper/20 pt-8 text-sm leading-relaxed text-paper/85 md:col-span-full">
           <p>
             <strong className="font-semibold text-brass-light">Aviso: </strong>
-            {concept.notice} Los datos de contacto y el horario son públicos; los precios y algunos
-            textos están pendientes de confirmar. El formulario de cita es una demostración y no
-            envía datos.
+            {concept.notice} {footerCopy.disclaimer}
           </p>
           <p className="mt-3">
-            Diseño y desarrollo:{" "}
+            {footerCopy.credit}{" "}
             <a
               href={concept.author.url}
               className="font-semibold text-paper underline underline-offset-4 hover:text-brass-light"

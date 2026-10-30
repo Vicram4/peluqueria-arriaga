@@ -2,9 +2,11 @@ import { OpenStatus } from "@/components/hours/open-status";
 import { ButtonLink } from "@/components/ui/button-link";
 import { CalendarIcon, PhoneIcon, StarIcon } from "@/components/ui/icons";
 import { PhotoSlot } from "@/components/ui/photo-slot";
+import { Highlighted } from "@/components/ui/section-heading";
 import { business, ratingLabel } from "@/content/business";
 import { sections } from "@/content/navigation";
 import { photos } from "@/content/photos";
+import { heroCopy } from "@/content/sections";
 
 export function Hero() {
   return (
@@ -13,18 +15,14 @@ export function Hero() {
         <div>
           <p className="flex items-center gap-3 label text-brass-ink">
             <span aria-hidden="true" className="h-px w-10 bg-brass" />
-            {business.audience} · {business.address.city}
+            {heroCopy.eyebrow}
           </p>
 
           <h1 id="hero-title" className="mt-5 font-display text-display font-medium text-balance">
-            Tu peluquería de barrio, <em className="text-maroon">de toda la vida</em>.
+            <Highlighted text={heroCopy.title} highlight={heroCopy.highlight} />
           </h1>
 
-          <p className="mt-6 max-w-xl text-lead text-pretty text-ink-muted">
-            En {business.name} se corta el pelo con oficio y sin prisas, con el trato cercano de{" "}
-            {business.owner}. Clientes de siempre y los más pequeños de la casa, en la calle Padre
-            Flores.
-          </p>
+          <p className="mt-6 max-w-xl text-lead text-pretty text-ink-muted">{heroCopy.lead}</p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href={`#${sections.booking}`}>
@@ -46,7 +44,7 @@ export function Hero() {
           {/* Sello de valoración, como una placa de latón sobre la foto. */}
           <a
             href={`#${sections.reviews}`}
-            className="absolute -bottom-6 -left-3 flex size-32 -rotate-6 flex-col items-center justify-center rounded-full border-[3px] border-double border-brass-light bg-ink text-center text-paper shadow-xl transition-transform hover:-rotate-3 sm:-left-8 sm:size-36"
+            className="absolute -bottom-6 -left-3 flex size-32 -rotate-6 flex-col items-center justify-center rounded-full border-[3px] border-double border-brass-light bg-ink text-center text-paper shadow-xl motion-safe:transition-transform motion-safe:hover:-rotate-3 sm:-left-8 sm:size-36"
           >
             <span className="font-display text-4xl leading-none font-semibold sm:text-5xl">
               {ratingLabel}

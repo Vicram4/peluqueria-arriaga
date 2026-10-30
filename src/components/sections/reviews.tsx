@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { business, ratingLabel } from "@/content/business";
 import { sections } from "@/content/navigation";
 import { reviews, type Review } from "@/content/reviews";
+import { reviewsCopy } from "@/content/sections";
 
 const dateFormatter = new Intl.DateTimeFormat("es-ES", {
   month: "long",
@@ -36,12 +37,7 @@ export function Reviews() {
     >
       <div className="shell grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:items-center lg:gap-20">
         <div>
-          <SectionHeading
-            id="reviews-title"
-            number="04"
-            eyebrow="Opiniones"
-            title="Lo cuentan mejor los clientes."
-          />
+          <SectionHeading id="reviews-title" copy={reviewsCopy} />
         </div>
 
         <div>
@@ -68,7 +64,7 @@ export function Reviews() {
           )}
 
           <ButtonLink href={business.mapsUrl} variant="secondary" className="mt-10">
-            Leer las reseñas en Google Maps
+            {reviewsCopy.cta}
             <ExternalIcon />
             <span className="sr-only">(se abre Google Maps)</span>
           </ButtonLink>

@@ -63,6 +63,7 @@ Todo el contenido está en datos tipados en `src/content/`, separado de los comp
 | `photos.ts`     | Huecos de fotos                                                             |
 | `concept.ts`    | Texto del aviso de concepto y crédito                                       |
 | `navigation.ts` | Anclas de las secciones y menú                                              |
+| `sections.ts`   | Titulares, entradillas y textos de cada sección, del pie y de la página 404 |
 
 **Reseñas.** Pega en `reviews.ts` solo reseñas reales, copiadas tal cual, con autor (o inicial),
 fecha (`"AAAA-MM"`), puntuación y, si quieres, el enlace a la reseña. El formato está en el
