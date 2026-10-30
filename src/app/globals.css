@@ -113,12 +113,9 @@
   text-transform: uppercase;
 }
 
-/** Titulares en Fraunces: óptica de rótulo y un punto de suavidad. */
+/** Titulares en Fraunces, con el tamaño óptico ajustado a cada cuerpo de letra. */
 @utility font-display {
   font-family: var(--font-display);
-  font-variation-settings:
-    "SOFT" 50,
-    "WONK" 0;
   font-optical-sizing: auto;
 }
 
