@@ -5,6 +5,7 @@ import { business, ratingLabel } from "@/content/business";
 import { sections } from "@/content/navigation";
 import { reviews, type Review } from "@/content/reviews";
 import { reviewsCopy } from "@/content/sections";
+import { ui } from "@/content/ui";
 
 const dateFormatter = new Intl.DateTimeFormat("es-ES", {
   month: "long",
@@ -44,13 +45,15 @@ export function Reviews() {
           <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
             <p className="font-display text-[clamp(5rem,3rem+8vw,8.5rem)] leading-none font-medium">
               {ratingLabel}
-              <span className="sr-only"> de 5</span>
+              <span className="sr-only"> {ui.rating.outOf}</span>
             </p>
             <div>
               <Stars rating={business.rating.value} size={26} />
               <p className="mt-2 text-lead">
-                <strong className="font-semibold">{business.rating.count} reseñas</strong> en{" "}
-                {business.rating.source}
+                <strong className="font-semibold">
+                  {ui.rating.reviews(business.rating.count)}
+                </strong>{" "}
+                en {business.rating.source}
               </p>
             </div>
           </div>
@@ -66,7 +69,7 @@ export function Reviews() {
           <ButtonLink href={business.mapsUrl} variant="secondary" className="mt-10">
             {reviewsCopy.cta}
             <ExternalIcon />
-            <span className="sr-only">(se abre Google Maps)</span>
+            <span className="sr-only">{ui.opensMaps}</span>
           </ButtonLink>
         </div>
       </div>
@@ -81,7 +84,7 @@ function ReviewCard({ review }: { review: Review }) {
   return (
     <li className="flex flex-col rounded-sm bg-paper p-6">
       <Stars rating={review.rating} />
-      <span className="sr-only">{review.rating} de 5 estrellas</span>
+      <span className="sr-only">{ui.rating.starsLabel(review.rating)}</span>
       <blockquote className="mt-4 flex-1 text-pretty">
         <p>«{review.text}»</p>
       </blockquote>
@@ -92,7 +95,7 @@ function ReviewCard({ review }: { review: Review }) {
             Google Maps
           </a>
         ) : (
-          "Google Maps"
+          business.rating.source
         )}
       </p>
     </li>

@@ -45,6 +45,20 @@
   --text-label: 0.8125rem;
   --text-label--line-height: 1.4;
   --text-label--letter-spacing: 0.12em;
+
+  /* --- Movimiento ---------------------------------------------------------
+     Todas las animaciones se usan con `motion-safe:` o dentro de
+     `prefers-reduced-motion: no-preference`: si el sistema pide menos movimiento, no hay. */
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --animate-fade-in: fade-in 0.4s var(--ease-out-quart) both;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
 }
 
 /* ==========================================================================
@@ -165,4 +179,130 @@
   background-repeat: no-repeat;
   background-position: right 0.875rem center;
   background-size: 1.25rem;
+}
+
+/* ==========================================================================
+   Animaciones
+   Pequeñas, rápidas y solo con transform/opacity (no cuestan rendimiento).
+   ========================================================================== */
+
+/** Subrayado que crece de izquierda a derecha al pasar el ratón (navegación y pie). */
+@utility link-grow {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1.5px;
+
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1.5px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    transition: background-size 0.3s var(--ease-out-quart);
+  }
+}
+
+/* Confirmación del formulario: el círculo «salta» y la marca se dibuja. */
+@keyframes pop {
+  from {
+    opacity: 0;
+    scale: 0.4;
+  }
+}
+
+@keyframes draw {
+  from {
+    stroke-dashoffset: 24;
+  }
+}
+
+/* Errores del formulario: un temblor corto para que se note qué falta. */
+@keyframes shake {
+  20%,
+  60% {
+    translate: -4px 0;
+  }
+  40%,
+  80% {
+    translate: 4px 0;
+  }
+}
+
+/* Teléfono que «suena» al pasar el ratón por un botón de llamada. */
+@keyframes ring {
+  0%,
+  100% {
+    rotate: 0deg;
+  }
+  15% {
+    rotate: -16deg;
+  }
+  30% {
+    rotate: 14deg;
+  }
+  45% {
+    rotate: -10deg;
+  }
+  60% {
+    rotate: 6deg;
+  }
+  75% {
+    rotate: -2deg;
+  }
+}
+
+/* Sello de valoración: cae sobre la foto como un tampón. */
+@keyframes stamp {
+  from {
+    opacity: 0;
+    scale: 1.6;
+  }
+  60% {
+    opacity: 1;
+    scale: 0.94;
+  }
+}
+
+/* Aparición al hacer scroll. */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    translate: 0 1.75rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .check-draw path {
+    stroke-dasharray: 24;
+    animation: draw 0.45s var(--ease-out-quart) 0.25s both;
+  }
+
+  a:hover > .icon-phone,
+  button:hover > .icon-phone {
+    animation: ring 0.7s ease-in-out;
+    transform-origin: 50% 60%;
+  }
+
+  .icon-external {
+    transition: translate 0.25s var(--ease-out-quart);
+  }
+
+  a:hover > .icon-external {
+    translate: 2px -2px;
+  }
+
+  .stamp-in {
+    animation: stamp 0.7s var(--ease-out-quart) 0.5s both;
+  }
+
+  /* Solo navegadores con animaciones ligadas al scroll (sin JavaScript). En el resto, todo se ve
+     directamente. Lo que ya está en pantalla al cargar aparece completo. */
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 80%;
+    }
+  }
 }

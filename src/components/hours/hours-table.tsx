@@ -3,6 +3,7 @@
 import { dayNames, schedule, weekOrder } from "@/content/schedule";
 import { formatTime } from "@/lib/opening";
 import { useMadridNow } from "@/lib/use-madrid-now";
+import { ui } from "@/content/ui";
 
 /** Tabla de horario con el día de hoy (en Madrid) resaltado. */
 export function HoursTable() {
@@ -10,11 +11,11 @@ export function HoursTable() {
 
   return (
     <table className="w-full border-collapse text-left">
-      <caption className="sr-only">Horario de apertura semanal</caption>
+      <caption className="sr-only">{ui.hours.caption}</caption>
       <thead className="sr-only">
         <tr>
-          <th scope="col">Día</th>
-          <th scope="col">Horario</th>
+          <th scope="col">{ui.hours.day}</th>
+          <th scope="col">{ui.hours.hours}</th>
         </tr>
       </thead>
       <tbody>
@@ -32,13 +33,15 @@ export function HoursTable() {
                 {dayNames[weekday].long}
                 {isToday && (
                   <span className="ml-2 rounded-full bg-brass-light px-2 py-0.5 align-middle text-xs font-semibold text-ink">
-                    Hoy
+                    {ui.hours.today}
                   </span>
                 )}
               </th>
               <td className="py-3.5 pr-3 text-right tabular-nums">
                 {ranges.length === 0 ? (
-                  <span className={isToday ? "text-paper/85" : "text-ink-muted"}>Cerrado</span>
+                  <span className={isToday ? "text-paper/85" : "text-ink-muted"}>
+                    {ui.hours.closed}
+                  </span>
                 ) : (
                   ranges.map((range) => (
                     <span

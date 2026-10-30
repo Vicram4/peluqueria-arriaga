@@ -5,6 +5,7 @@ import { buttonClasses } from "@/components/ui/button-link";
 import { CalendarIcon, PhoneIcon } from "@/components/ui/icons";
 import { business } from "@/content/business";
 import { sections } from "@/content/navigation";
+import { ui } from "@/content/ui";
 
 /**
  * Barra inferior en móvil con «Llamar» y «Pedir cita». Aparece al dejar atrás el inicio (que ya
@@ -41,11 +42,11 @@ export function MobileActionBar() {
       <div className="grid grid-cols-2 gap-3">
         <a href={business.phone.href} className={buttonClasses("secondary")}>
           <PhoneIcon />
-          Llamar
+          {ui.callCta}
         </a>
         <a href={`#${sections.booking}`} className={buttonClasses("primary")}>
           <CalendarIcon />
-          Pedir cita
+          {ui.bookCta}
         </a>
       </div>
     </div>

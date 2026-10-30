@@ -50,3 +50,21 @@ export const slotNames: Record<Slot, string> = {
 
 // PENDIENTE: confirmar cómo trabajan los festivos y si cierran en agosto.
 export const holidayNote = "Festivos: consultar por teléfono.";
+
+export const monthNames = {
+  short: ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"],
+  long: [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+  ],
+} as const;

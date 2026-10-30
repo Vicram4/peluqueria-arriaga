@@ -7,6 +7,7 @@ import { business, ratingLabel } from "@/content/business";
 import { sections } from "@/content/navigation";
 import { photos } from "@/content/photos";
 import { heroCopy } from "@/content/sections";
+import { ui } from "@/content/ui";
 
 export function Hero() {
   return (
@@ -27,11 +28,11 @@ export function Hero() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <ButtonLink href={`#${sections.booking}`}>
               <CalendarIcon />
-              Pedir cita
+              {ui.bookCta}
             </ButtonLink>
             <ButtonLink href={business.phone.href} variant="secondary">
               <PhoneIcon />
-              Llamar al {business.phone.display}
+              {ui.callNumber(business.phone.display)}
             </ButtonLink>
           </div>
 
@@ -44,7 +45,7 @@ export function Hero() {
           {/* Sello de valoración, como una placa de latón sobre la foto. */}
           <a
             href={`#${sections.reviews}`}
-            className="absolute -bottom-6 -left-3 flex size-32 -rotate-6 flex-col items-center justify-center rounded-full border-[3px] border-double border-brass-light bg-ink text-center text-paper shadow-xl motion-safe:transition-transform motion-safe:hover:-rotate-3 sm:-left-8 sm:size-36"
+            className="stamp-in absolute -bottom-6 -left-3 flex size-32 -rotate-6 flex-col items-center justify-center rounded-full border-[3px] border-double border-brass-light bg-ink text-center text-paper shadow-xl motion-safe:transition-transform motion-safe:hover:-rotate-3 sm:-left-8 sm:size-36"
           >
             <span className="font-display text-4xl leading-none font-semibold sm:text-5xl">
               {ratingLabel}
@@ -55,10 +56,10 @@ export function Hero() {
               ))}
             </span>
             <span className="mt-1 text-xs leading-tight">
-              <span className="sr-only">de 5, </span>
-              {business.rating.count} reseñas
+              <span className="sr-only">{ui.rating.outOf}, </span>
+              {ui.rating.reviews(business.rating.count)}
               <br />
-              en Google
+              {ui.rating.onGoogle}
             </span>
           </a>
         </div>

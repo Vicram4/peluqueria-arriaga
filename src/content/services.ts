@@ -44,4 +44,7 @@ export const services: readonly Service[] = [
   },
 ];
 
+/** Lo que se muestra cuando un servicio no tiene precio. */
+export const priceFallback = "Consultar";
+
 export const priceNote = "Precios orientativos, pendientes de confirmar con la peluquería.";

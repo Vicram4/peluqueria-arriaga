@@ -10,7 +10,7 @@ export function Logo() {
       <BarberPole className="h-9" />
       <span className="flex flex-col leading-none">
         <span className="text-[0.625rem] font-semibold tracking-[0.28em] text-brass-ink uppercase">
-          Peluquería
+          {business.logoPrefix}
         </span>
         <span className="font-display text-[1.75rem] font-semibold tracking-tight">
           {business.shortName}

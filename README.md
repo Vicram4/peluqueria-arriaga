@@ -51,19 +51,21 @@ Detecta Next.js y sirve la carpeta `out/`. No hace falta tarjeta ni variables de
 
 ## Dónde se cambia el contenido
 
-Todo el contenido está en datos tipados en `src/content/`, separado de los componentes:
+Todo el texto de la web está en datos tipados en `src/content/`, separado de los componentes:
 
-| Archivo         | Contenido                                                                   |
-| --------------- | --------------------------------------------------------------------------- |
-| `business.ts`   | Nombre, dueño, dirección, teléfono, enlace a Google Maps y valoración media |
-| `schedule.ts`   | Horario semanal. Alimenta la tabla, «Abierto ahora» y las franjas de cita   |
-| `services.ts`   | Servicios y precios (`price: null` se muestra como «Consultar»)             |
-| `values.ts`     | Lo que destacan los clientes (sección «Nosotros»)                           |
-| `reviews.ts`    | Reseñas reales: **vacía a propósito** (ver abajo)                           |
-| `photos.ts`     | Huecos de fotos                                                             |
-| `concept.ts`    | Texto del aviso de concepto y crédito                                       |
-| `navigation.ts` | Anclas de las secciones y menú                                              |
-| `sections.ts`   | Titulares, entradillas y textos de cada sección, del pie y de la página 404 |
+| Archivo           | Contenido                                                                            |
+| ----------------- | ------------------------------------------------------------------------------------ |
+| `business.ts`     | Nombre, dueño, dirección, teléfono, enlace a Google Maps y valoración media          |
+| `schedule.ts`     | Horario semanal. Alimenta la tabla, «Abierto ahora» y las franjas de cita            |
+| `services.ts`     | Servicios y precios (`price: null` se muestra como «Consultar»)                      |
+| `values.ts`       | Lo que destacan los clientes (sección «Nosotros»)                                    |
+| `reviews.ts`      | Reseñas reales: **vacía a propósito** (ver abajo)                                    |
+| `photos.ts`       | Huecos de fotos                                                                      |
+| `concept.ts`      | Texto del aviso de concepto y crédito                                                |
+| `navigation.ts`   | Anclas de las secciones y menú                                                       |
+| `sections.ts`     | Titulares, entradillas y textos de cada sección, del pie y de la página 404          |
+| `booking-form.ts` | Etiquetas, ayudas, errores y confirmación del formulario de cita                     |
+| `ui.ts`           | Textos de interfaz comunes: botones, menú, horario, avisos para lectores de pantalla |
 
 **Reseñas.** Pega en `reviews.ts` solo reseñas reales, copiadas tal cual, con autor (o inicial),
 fecha (`"AAAA-MM"`), puntuación y, si quieres, el enlace a la reseña. El formato está en el
@@ -93,6 +95,11 @@ mano en `business.ts`.
   `prefers-reduced-motion`.
 - **Móvil primero:** barra inferior fija con «Llamar» y «Pedir cita», que aparece al dejar atrás
   el inicio y se oculta en el formulario.
+- **Animaciones:** pequeñas y solo con CSS. Los botones se elevan al pasar el ratón, el icono del
+  teléfono «suena», el sello de valoración cae como un tampón al cargar, los encabezados aparecen al
+  hacer scroll (en navegadores que lo permiten, sin JavaScript), los errores del formulario tiemblan
+  y la marca de la confirmación se dibuja. Todas se desactivan si el sistema pide menos movimiento
+  (`prefers-reduced-motion`).
 
 ## Datos pendientes de confirmar con el negocio
 

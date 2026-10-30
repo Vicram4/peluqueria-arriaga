@@ -35,7 +35,7 @@ export function SectionHeading({
   const accent = tone === "dark" ? "text-brass-light" : "text-brass-ink";
 
   return (
-    <header className="max-w-3xl">
+    <header className="reveal max-w-3xl">
       <p className={`flex items-center gap-3 label ${accent}`}>
         <span className="font-display text-base tracking-normal normal-case">Nº {copy.number}</span>
         <span aria-hidden="true" className="h-px w-10 bg-current opacity-60" />

@@ -7,6 +7,7 @@ import { business } from "@/content/business";
 import { sections } from "@/content/navigation";
 import { holidayNote } from "@/content/schedule";
 import { hoursCopy } from "@/content/sections";
+import { ui } from "@/content/ui";
 
 // Sin mapa incrustado: un iframe de Google Maps pesa cerca de 1 MB y bajaría la nota de
 // rendimiento. Un enlace abre la app de mapas del móvil, que es lo que se quiere.
@@ -50,7 +51,7 @@ export function HoursLocation() {
                 <MapPinIcon />
                 {hoursCopy.directions}
                 <ExternalIcon />
-                <span className="sr-only">(se abre Google Maps)</span>
+                <span className="sr-only">{ui.opensMaps}</span>
               </ButtonLink>
               <ButtonLink href={business.phone.href} variant="secondary">
                 <PhoneIcon />

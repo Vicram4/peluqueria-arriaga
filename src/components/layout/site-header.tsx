@@ -5,6 +5,7 @@ import { PhoneIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/logo";
 import { business } from "@/content/business";
 import { navItems, sections } from "@/content/navigation";
+import { ui } from "@/content/ui";
 
 /** Cabecera fija: logotipo, navegación, teléfono y «Pedir cita». */
 export function SiteHeader() {
@@ -13,13 +14,13 @@ export function SiteHeader() {
       <div className="shell flex h-18 items-center justify-between gap-4">
         <Logo />
 
-        <nav aria-label="Principal" className="hidden lg:block">
+        <nav aria-label={ui.nav.main} className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => (
               <li key={item.id}>
                 <a
                   href={`#${item.id}`}
-                  className="rounded-full px-3 py-2 font-medium text-ink-muted transition-colors hover:text-ink"
+                  className="mx-3 link-grow py-1 font-medium text-ink-muted transition-colors hover:text-ink"
                 >
                   {item.label}
                 </a>
@@ -38,7 +39,7 @@ export function SiteHeader() {
           </a>
           {/* En móvil, «Pedir cita» está en el menú y en la barra inferior. */}
           <div className="hidden sm:block">
-            <ButtonLink href={`#${sections.booking}`}>Pedir cita</ButtonLink>
+            <ButtonLink href={`#${sections.booking}`}>{ui.bookCta}</ButtonLink>
           </div>
           <MobileMenu />
         </div>

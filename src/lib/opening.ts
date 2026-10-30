@@ -14,8 +14,9 @@ export function formatTime(time: string): string {
 
 export type OpenStatus =
   | { open: true; closesAt: string }
-  | { open: false; opensAt: string; when: string }
-  | { open: false; opensAt: null; when: null };
+  /** `daysAhead`: 0 = hoy, 1 = mañana… `weekday`: día en que vuelve a abrir. */
+  | { open: false; opensAt: string; daysAhead: number; weekday: Weekday }
+  | { open: false; opensAt: null };
 
 /** ¿Está abierto ahora? Si no, cuándo vuelve a abrir. */
 export function getOpenStatus(now: Pick<MadridNow, "weekday" | "minutes">): OpenStatus {
@@ -30,18 +31,10 @@ export function getOpenStatus(now: Pick<MadridNow, "weekday" | "minutes">): Open
     const next = schedule[weekday].find(
       (range) => offset > 0 || toMinutes(range.open) > now.minutes,
     );
-    if (next) {
-      const when =
-        offset === 0
-          ? "hoy"
-          : offset === 1
-            ? "mañana"
-            : `el ${dayNames[weekday].long.toLowerCase()}`;
-      return { open: false, opensAt: formatTime(next.open), when };
-    }
+    if (next) return { open: false, opensAt: formatTime(next.open), daysAhead: offset, weekday };
   }
 
-  return { open: false, opensAt: null, when: null };
+  return { open: false, opensAt: null };
 }
 
 export type BookableDay = {

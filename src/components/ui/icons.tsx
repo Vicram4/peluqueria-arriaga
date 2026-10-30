@@ -1,9 +1,10 @@
 import type { SVGProps } from "react";
 
 /** Iconos de trazo, decorativos: siempre acompañan a un texto, por eso van ocultos. */
-function Icon({ children, ...props }: SVGProps<SVGSVGElement>) {
+function Icon({ children, className = "", ...props }: SVGProps<SVGSVGElement>) {
   return (
     <svg
+      className={className || undefined}
       viewBox="0 0 24 24"
       width="20"
       height="20"
@@ -21,9 +22,9 @@ function Icon({ children, ...props }: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function PhoneIcon(props: SVGProps<SVGSVGElement>) {
+export function PhoneIcon({ className = "", ...props }: SVGProps<SVGSVGElement>) {
   return (
-    <Icon {...props}>
+    <Icon className={`icon-phone ${className}`} {...props}>
       <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2" />
     </Icon>
   );
@@ -55,9 +56,9 @@ export function ArrowIcon(props: SVGProps<SVGSVGElement>) {
   );
 }
 
-export function ExternalIcon(props: SVGProps<SVGSVGElement>) {
+export function ExternalIcon({ className = "", ...props }: SVGProps<SVGSVGElement>) {
   return (
-    <Icon {...props}>
+    <Icon className={`icon-external ${className}`} {...props}>
       <path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
     </Icon>
   );

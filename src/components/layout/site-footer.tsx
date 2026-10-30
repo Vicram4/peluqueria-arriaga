@@ -3,6 +3,7 @@ import { business } from "@/content/business";
 import { concept } from "@/content/concept";
 import { navItems } from "@/content/navigation";
 import { footerCopy } from "@/content/sections";
+import { ui } from "@/content/ui";
 
 export function SiteFooter() {
   const { address } = business;
@@ -20,7 +21,7 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h2 className="label text-brass-light">Dónde</h2>
+          <h2 className="label text-brass-light">{ui.footer.where}</h2>
           <address className="mt-3 leading-relaxed text-paper/85 not-italic">
             {address.street}
             <br />
@@ -28,21 +29,21 @@ export function SiteFooter() {
             <br />
             <a
               href={business.phone.href}
-              className="font-semibold text-paper tabular-nums underline-offset-4 hover:underline"
+              className="link-grow font-semibold text-paper tabular-nums"
             >
               {business.phone.display}
             </a>
           </address>
         </div>
 
-        <nav aria-label="Pie de página">
-          <h2 className="label text-brass-light">Secciones</h2>
+        <nav aria-label={ui.nav.footer}>
+          <h2 className="label text-brass-light">{ui.footer.sections}</h2>
           <ul className="mt-3 space-y-2">
             {navItems.map((item) => (
               <li key={item.id}>
                 <a
                   href={`#${item.id}`}
-                  className="text-paper/85 underline-offset-4 hover:text-paper hover:underline"
+                  className="link-grow text-paper/85 transition-colors hover:text-paper"
                 >
                   {item.label}
                 </a>
@@ -53,7 +54,7 @@ export function SiteFooter() {
 
         <div className="border-t border-paper/20 pt-8 text-sm leading-relaxed text-paper/85 md:col-span-full">
           <p>
-            <strong className="font-semibold text-brass-light">Aviso: </strong>
+            <strong className="font-semibold text-brass-light">{ui.footer.notice} </strong>
             {concept.notice} {footerCopy.disclaimer}
           </p>
           <p className="mt-3">

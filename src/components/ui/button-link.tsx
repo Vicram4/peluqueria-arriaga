@@ -9,9 +9,12 @@ const variants = {
 
 export type ButtonVariant = keyof typeof variants;
 
-/** Clases de botón (mínimo 48 px de alto: cómodo con el pulgar). También para `<button>`. */
+/**
+ * Clases de botón (mínimo 48 px de alto: cómodo con el pulgar). También para `<button>`.
+ * Con movimiento permitido, se elevan un poco al pasar el ratón y se hunden al pulsar.
+ */
 export function buttonClasses(variant: ButtonVariant = "primary") {
-  return `inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-base font-semibold transition-colors ${variants[variant]}`;
+  return `inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-base font-semibold transition duration-200 hover:shadow-[0_8px_18px_-8px_rgb(19_38_30/0.55)] motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-safe:active:scale-[0.98] ${variants[variant]}`;
 }
 
 /** Enlace con aspecto de botón. */

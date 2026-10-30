@@ -13,6 +13,8 @@ const address = {
 export const business = {
   name: "Peluquería Arriaga",
   shortName: "Arriaga",
+  /** Palabra pequeña sobre el nombre en el logotipo. */
+  logoPrefix: "Peluquería",
   // PENDIENTE: confirmar el nombre del dueño.
   owner: "Julián",
   audience: "Caballeros y niños",

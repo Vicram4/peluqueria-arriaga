@@ -3,7 +3,8 @@
 import { useId, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { buttonClasses } from "@/components/ui/button-link";
 import { CheckIcon } from "@/components/ui/icons";
-import { dayNames, schedule, slotNames, type Slot } from "@/content/schedule";
+import { bookingFormCopy as copy } from "@/content/booking-form";
+import { dayNames, monthNames, schedule, slotNames, type Slot } from "@/content/schedule";
 import { services } from "@/content/services";
 import { formatTime, getBookableDays, type BookableDay } from "@/lib/opening";
 import { useMadridNow } from "@/lib/use-madrid-now";
@@ -14,36 +15,6 @@ import { useMadridNow } from "@/lib/use-madrid-now";
  */
 
 const DAYS_SHOWN = 12;
-
-const monthNames = [
-  "ene",
-  "feb",
-  "mar",
-  "abr",
-  "may",
-  "jun",
-  "jul",
-  "ago",
-  "sep",
-  "oct",
-  "nov",
-  "dic",
-] as const;
-
-const monthNamesLong = [
-  "enero",
-  "febrero",
-  "marzo",
-  "abril",
-  "mayo",
-  "junio",
-  "julio",
-  "agosto",
-  "septiembre",
-  "octubre",
-  "noviembre",
-  "diciembre",
-] as const;
 
 type Values = { name: string; phone: string; service: string; day: string; slot: Slot | "" };
 type Field = keyof Values;
@@ -61,21 +32,19 @@ function validate(values: Values, days: readonly BookableDay[]): Errors {
   const errors: Errors = {};
   const day = days.find((option) => option.iso === values.day);
 
-  if (values.name.trim().length < 2) errors.name = "Escribe tu nombre.";
-  if (!/^[6789]\d{8}$/.test(normalizePhone(values.phone)))
-    errors.phone = "Escribe un teléfono español de 9 cifras, por ejemplo 600 123 456.";
+  if (values.name.trim().length < 2) errors.name = copy.errors.name;
+  if (!/^[6789]\d{8}$/.test(normalizePhone(values.phone))) errors.phone = copy.errors.phone;
   if (!services.some((service) => service.id === values.service))
-    errors.service = "Elige un servicio.";
-  if (!day) errors.day = "Elige un día.";
-  if (!values.slot) errors.slot = "Elige mañana o tarde.";
-  else if (day && !day.slots.includes(values.slot))
-    errors.slot = "Esa franja no está disponible ese día.";
+    errors.service = copy.errors.service;
+  if (!day) errors.day = copy.errors.day;
+  if (!values.slot) errors.slot = copy.errors.slot;
+  else if (day && !day.slots.includes(values.slot)) errors.slot = copy.errors.slotUnavailable;
 
   return errors;
 }
 
 function dayLabel(day: BookableDay) {
-  return `${dayNames[day.weekday].long.toLowerCase()} ${day.day} de ${monthNamesLong[day.month - 1]}`;
+  return `${dayNames[day.weekday].long.toLowerCase()} ${day.day} de ${monthNames.long[day.month - 1]}`;
 }
 
 export function BookingForm() {
@@ -136,31 +105,29 @@ export function BookingForm() {
 
     return (
       <div className="rounded-sm border-[3px] border-double border-brass bg-paper p-6 sm:p-8">
-        <p className="inline-flex size-12 items-center justify-center rounded-full bg-ink text-paper">
-          <CheckIcon />
+        <p className="inline-flex size-12 items-center justify-center rounded-full bg-ink text-paper motion-safe:animate-[pop_0.5s_var(--ease-spring)]">
+          <CheckIcon className="check-draw" />
         </p>
         <h3
           ref={confirmationRef}
           tabIndex={-1}
           className="mt-5 font-display text-title font-medium"
         >
-          Así quedaría tu solicitud, {submitted.name.trim()}
+          {copy.confirmation.title(submitted.name.trim())}
         </h3>
         <dl className="mt-5 grid gap-x-6 gap-y-2 sm:grid-cols-[auto_1fr]">
-          <dt className="font-semibold">Servicio</dt>
+          <dt className="font-semibold">{copy.confirmation.service}</dt>
           <dd>{service?.name}</dd>
-          <dt className="font-semibold">Día</dt>
+          <dt className="font-semibold">{copy.confirmation.day}</dt>
           <dd>{day ? dayLabel(day) : submitted.day}</dd>
-          <dt className="font-semibold">Franja</dt>
+          <dt className="font-semibold">{copy.confirmation.slot}</dt>
           <dd>{submitted.slot && slotNames[submitted.slot]}</dd>
         </dl>
         <p className="mt-6 rounded-sm bg-maroon px-4 py-3 text-paper">
-          <strong>Esto es una demostración: no se ha enviado nada.</strong> Tus datos no han salido
-          de tu navegador. En la web real, aquí la peluquería recibiría la solicitud y te llamaría
-          para confirmarla.
+          <strong>{copy.confirmation.demoLead}</strong> {copy.confirmation.demoText}
         </p>
         <button type="button" onClick={reset} className={`${buttonClasses("secondary")} mt-6`}>
-          Volver a empezar
+          {copy.confirmation.reset}
         </button>
       </div>
     );
@@ -178,15 +145,14 @@ export function BookingForm() {
         id={`${id}-demo`}
         className="mb-6 rounded-sm bg-paper-deep px-4 py-3 text-[0.9375rem] text-ink-muted"
       >
-        <strong className="text-ink">Demostración:</strong> este formulario no envía ni guarda
-        ningún dato.
+        <strong className="text-ink">{copy.demoNotice.lead}</strong> {copy.demoNotice.text}
       </p>
 
       <div className="grid gap-6 sm:grid-cols-2">
         <TextField
           id={`${id}-name`}
           field="name"
-          label="Nombre"
+          label={copy.fields.name}
           autoComplete="given-name"
           value={values.name}
           error={errors.name}
@@ -195,7 +161,7 @@ export function BookingForm() {
         <TextField
           id={`${id}-phone`}
           field="phone"
-          label="Teléfono"
+          label={copy.fields.phone}
           type="tel"
           inputMode="tel"
           autoComplete="tel-national"
@@ -206,7 +172,7 @@ export function BookingForm() {
 
         <div className="sm:col-span-2">
           <label htmlFor={`${id}-service`} className="block font-semibold">
-            Servicio
+            {copy.fields.service}
           </label>
           <select
             id={`${id}-service`}
@@ -218,7 +184,7 @@ export function BookingForm() {
             className={`${inputClasses} select-chevron pr-11`}
           >
             <option value="" disabled>
-              Elige un servicio
+              {copy.fields.servicePlaceholder}
             </option>
             {services.map((service) => (
               <option key={service.id} value={service.id}>
@@ -231,12 +197,10 @@ export function BookingForm() {
       </div>
 
       <fieldset className="mt-7" aria-describedby={errors.day ? `${id}-day-error` : undefined}>
-        <legend className="font-semibold">Día</legend>
-        <p className="mt-1 text-[0.9375rem] text-ink-muted">
-          Próximos días con horario. Los domingos está cerrado.
-        </p>
+        <legend className="font-semibold">{copy.fields.day}</legend>
+        <p className="mt-1 text-[0.9375rem] text-ink-muted">{copy.fields.dayHint}</p>
         {days.length === 0 ? (
-          <p className="mt-3 text-ink-muted">Calculando los próximos días…</p>
+          <p className="mt-3 text-ink-muted">{copy.fields.dayLoading}</p>
         ) : (
           <div className="mt-3 grid grid-cols-4 gap-2 sm:grid-cols-6">
             {days.map((day, index) => {
@@ -250,17 +214,17 @@ export function BookingForm() {
                     checked={values.day === day.iso}
                     onChange={() => update("day", day.iso)}
                     data-field={index === 0 ? "day" : undefined}
-                    aria-label={`${isToday ? "Hoy, " : ""}${dayLabel(day)}`}
+                    aria-label={`${isToday ? `${copy.fields.today}, ` : ""}${dayLabel(day)}`}
                     className="sr-only"
                   />
                   <span aria-hidden="true" className="text-xs font-semibold uppercase">
-                    {isToday ? "Hoy" : dayNames[day.weekday].short}
+                    {isToday ? copy.fields.today : dayNames[day.weekday].short}
                   </span>
                   <span aria-hidden="true" className="font-display text-2xl font-semibold">
                     {day.day}
                   </span>
                   <span aria-hidden="true" className="text-xs">
-                    {monthNames[day.month - 1]}
+                    {monthNames.short[day.month - 1]}
                   </span>
                 </label>
               );
@@ -276,7 +240,7 @@ export function BookingForm() {
           .filter(Boolean)
           .join(" ")}
       >
-        <legend className="font-semibold">Franja</legend>
+        <legend className="font-semibold">{copy.fields.slot}</legend>
         <div className="mt-3 grid grid-cols-2 gap-2">
           {(["morning", "afternoon"] as const).map((slot) => {
             const available = !selectedDay || selectedDay.slots.includes(slot);
@@ -299,7 +263,7 @@ export function BookingForm() {
                 <span className="text-sm tabular-nums">
                   {available && range
                     ? `${formatTime(range.open)}–${formatTime(range.close)}`
-                    : "No disponible"}
+                    : copy.fields.slotUnavailable}
                 </span>
               </label>
             );
@@ -312,7 +276,7 @@ export function BookingForm() {
       </fieldset>
 
       <button type="submit" className={`${buttonClasses("primary")} mt-8 w-full sm:w-auto`}>
-        Pedir cita (demo)
+        {copy.submit}
       </button>
     </form>
   );
@@ -324,19 +288,21 @@ function toIso(now: ReturnType<typeof useMadridNow>) {
 }
 
 function slotHint(day: BookableDay | undefined) {
-  if (!day) return "Elige primero un día. Los sábados solo hay horario de mañana.";
-  if (day.weekday === 6) return "Los sábados solo hay horario de mañana.";
-  if (day.slots.length === 1)
-    return `Hoy solo queda la franja de ${slotNames[day.slots[0]].toLowerCase()}.`;
-  return "Te llamaremos para concretar la hora exacta.";
+  if (!day) return copy.slotHints.noDay;
+  if (day.weekday === 6) return copy.slotHints.saturday;
+  if (day.slots.length === 1) return copy.slotHints.onlyOneLeft(slotNames[day.slots[0]]);
+  return copy.slotHints.default;
 }
 
 const inputClasses =
   "mt-2 block min-h-12 w-full rounded-sm border-2 border-ink/30 bg-paper px-3.5 text-base text-ink transition-colors hover:border-ink/60 focus:border-ink aria-invalid:border-maroon";
 
-/** Opción tipo «ficha» para los grupos de radio: estado elegido, foco y desactivado visibles. */
+/**
+ * Opción tipo «ficha» para los grupos de radio: estado elegido, foco y desactivado visibles.
+ * Con movimiento permitido, la ficha se eleva al pasar el ratón y se «hunde» al pulsarla.
+ */
 const choiceClasses =
-  "flex cursor-pointer items-center justify-center rounded-sm border-2 border-ink/25 bg-paper text-center transition-colors hover:border-ink has-checked:border-ink has-checked:bg-ink has-checked:text-paper has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink has-disabled:cursor-not-allowed has-disabled:border-dashed has-disabled:bg-paper-deep has-disabled:text-ink-muted has-disabled:hover:border-ink/25";
+  "flex cursor-pointer items-center justify-center rounded-sm border-2 border-ink/25 bg-paper text-center transition duration-200 hover:border-ink has-checked:border-ink has-checked:bg-ink has-checked:text-paper has-focus-visible:outline-3 has-focus-visible:outline-offset-2 has-focus-visible:outline-ink has-disabled:cursor-not-allowed has-disabled:border-dashed has-disabled:bg-paper-deep has-disabled:text-ink-muted has-disabled:hover:border-ink/25 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md motion-safe:active:translate-y-0 motion-safe:active:scale-95 motion-safe:has-disabled:hover:translate-y-0 motion-safe:has-disabled:hover:shadow-none";
 
 function TextField({
   id,
@@ -381,10 +347,14 @@ function TextField({
   );
 }
 
+/** Mensaje de error; con movimiento permitido, entra con un pequeño temblor para llamar la atención. */
 function FieldError({ id, children }: { id: string; children?: ReactNode }) {
   if (!children) return null;
   return (
-    <p id={id} className="mt-2 flex gap-1.5 text-[0.9375rem] font-medium text-maroon">
+    <p
+      id={id}
+      className="mt-2 flex gap-1.5 text-[0.9375rem] font-medium text-maroon motion-safe:animate-[shake_0.35s_ease-in-out]"
+    >
       <span aria-hidden="true">!</span>
       {children}
     </p>

@@ -1,12 +1,13 @@
 import Image from "next/image";
 import type { Photo } from "@/content/photos";
+import { ui } from "@/content/ui";
 
 /**
  * Hueco para una foto propia. Sin `src` muestra un marco de espera con la proporción final,
  * así al añadir la foto no se mueve nada.
  */
 export function PhotoSlot({ photo, className = "" }: { photo: Photo; className?: string }) {
-  const frame = `relative overflow-hidden rounded-sm border-[3px] border-double border-brass ${className}`;
+  const frame = `relative overflow-hidden rounded-sm border-[3px] border-double border-brass motion-safe:transition-transform motion-safe:duration-500 motion-safe:ease-(--ease-out-quart) motion-safe:hover:rotate-0 ${className}`;
   const aspectRatio = `${photo.width} / ${photo.height}`;
 
   if (photo.src) {
@@ -32,7 +33,7 @@ export function PhotoSlot({ photo, className = "" }: { photo: Photo; className?:
         className="absolute inset-0 [background-image:repeating-linear-gradient(-45deg,var(--color-ink)_0_1px,transparent_1px_12px)] opacity-[0.08]"
       />
       <p className="relative px-6 text-center">
-        <span className="block label text-brass-ink">Foto pendiente</span>
+        <span className="block label text-brass-ink">{ui.photoPending}</span>
         <span className="mt-1 block font-display text-title text-ink-muted">{photo.label}</span>
       </p>
     </div>

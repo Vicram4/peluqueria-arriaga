@@ -18,8 +18,14 @@ export function About() {
 
           <ol className="grid gap-x-10 gap-y-10 sm:grid-cols-2">
             {values.map((value, index) => (
-              <li key={value.title} className="border-t-[3px] border-double border-brass pt-5">
-                <p aria-hidden="true" className="font-display text-3xl text-maroon">
+              <li
+                key={value.title}
+                className="group reveal border-t-[3px] border-double border-brass pt-5 transition-colors duration-300 hover:border-maroon"
+              >
+                <p
+                  aria-hidden="true"
+                  className="inline-block font-display text-3xl text-maroon motion-safe:transition-transform motion-safe:duration-300 motion-safe:ease-(--ease-spring) motion-safe:group-hover:scale-110 motion-safe:group-hover:-rotate-6"
+                >
                   {numerals[index]}
                 </p>
                 <h3 className="mt-2 font-display text-title font-medium">{value.title}</h3>

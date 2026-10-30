@@ -3,7 +3,7 @@ import { PhoneIcon } from "@/components/ui/icons";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { business } from "@/content/business";
 import { sections } from "@/content/navigation";
-import { priceNote, services } from "@/content/services";
+import { priceFallback, priceNote, services } from "@/content/services";
 import { servicesCopy } from "@/content/sections";
 
 /** Servicios como una tablilla de precios de las de antes: nombre · · · · precio. */
@@ -26,12 +26,17 @@ export function Services() {
         <div className="rounded-sm border-[3px] border-double border-brass p-5 sm:p-8">
           <ul className="divide-y divide-paper/15">
             {services.map((service) => (
-              <li key={service.id} className="py-5 first:pt-0 last:pb-0">
+              <li key={service.id} className="group reveal py-5 first:pt-0 last:pb-0">
                 <div className="flex items-baseline gap-3">
-                  <h3 className="font-display text-title font-medium">{service.name}</h3>
-                  <span aria-hidden="true" className="leader text-brass" />
+                  <h3 className="font-display text-title font-medium transition-colors group-hover:text-brass-light motion-safe:transition motion-safe:duration-300 motion-safe:group-hover:translate-x-1.5">
+                    {service.name}
+                  </h3>
+                  <span
+                    aria-hidden="true"
+                    className="leader text-brass transition-opacity duration-300 group-hover:opacity-100"
+                  />
                   <p className="shrink-0 font-semibold text-brass-light tabular-nums">
-                    {service.price ?? "Consultar"}
+                    {service.price ?? priceFallback}
                   </p>
                 </div>
                 <p className="mt-1.5 max-w-prose text-paper/85">{service.description}</p>
