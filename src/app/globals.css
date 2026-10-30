@@ -1,0 +1,171 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   SISTEMA DE DISEÑO — «Barbería de barrio»
+   Cada variable de @theme genera clases de Tailwind:
+   --color-paper → bg-paper, text-paper… · --text-display → text-display
+   ========================================================================== */
+
+@theme {
+  /* --- Color -------------------------------------------------------------
+     Contraste (WCAG AA exige 4.5:1 en texto normal):
+     ink/paper 13.5:1 · ink-muted/paper 6.2:1 (5.5:1 sobre paper-deep)
+     maroon/paper 8.7:1 · brass-ink/paper 5.3:1 (4.7:1 sobre paper-deep)
+     Sobre ink: paper 13.5:1 · brass-light 8.4:1 · brass 5.0:1
+     brass sobre paper 2.7:1 → solo filetes, iconos y adornos. */
+  --color-paper: #f3ecdd;
+  --color-paper-deep: #e8dfcb;
+  --color-ink: #13261e;
+  --color-ink-muted: #4a5a51;
+  --color-maroon: #7a1e2c;
+  --color-maroon-deep: #5e1521;
+  --color-brass: #b08a4f;
+  --color-brass-ink: #7a5c28;
+  --color-brass-light: #d9b878;
+
+  /* --- Tipografía --------------------------------------------------------- */
+  --font-display: var(--font-fraunces), "Georgia", serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Escala fluida: cada tamaño crece con la pantalla entre un mínimo y un máximo. */
+  --text-display: clamp(3rem, 1.6rem + 6.5vw, 7.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.02em;
+
+  --text-headline: clamp(2.25rem, 1.6rem + 3vw, 4.25rem);
+  --text-headline--line-height: 1;
+  --text-headline--letter-spacing: -0.015em;
+
+  --text-title: clamp(1.375rem, 1.2rem + 0.7vw, 1.875rem);
+  --text-title--line-height: 1.15;
+
+  --text-lead: clamp(1.0625rem, 1rem + 0.4vw, 1.3125rem);
+  --text-lead--line-height: 1.55;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0.12em;
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    /* Deja sitio a la cabecera fija al saltar a un ancla. */
+    scroll-padding-top: 5.5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink;
+  }
+
+  /* Foco visible y consistente en toda la web: anillo verde con halo de papel,
+     para que se vea tanto sobre fondos claros como oscuros. */
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px var(--color-paper);
+    border-radius: 2px;
+  }
+
+  .on-dark :focus-visible {
+    outline-color: var(--color-brass-light);
+    box-shadow: 0 0 0 6px var(--color-ink);
+  }
+
+  ::selection {
+    @apply bg-maroon text-paper;
+  }
+}
+
+/* ==========================================================================
+   Utilidades propias
+   ========================================================================== */
+
+/** Contenedor común: ancho máximo y márgenes laterales fluidos. */
+@utility shell {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+/** Espaciado vertical entre secciones. */
+@utility section-y {
+  padding-block: clamp(4rem, 2.5rem + 6vw, 8rem);
+}
+
+/** Etiqueta en versalitas: «Nº 02 — SERVICIOS». */
+@utility label {
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: var(--text-label--letter-spacing);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/** Titulares en Fraunces: óptica de rótulo y un punto de suavidad. */
+@utility font-display {
+  font-family: var(--font-display);
+  font-variation-settings:
+    "SOFT" 50,
+    "WONK" 0;
+  font-optical-sizing: auto;
+}
+
+/** Franja diagonal de poste de barbero (granate · papel · verde · papel). */
+@utility barber-stripe {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-maroon) 0 8px,
+    var(--color-paper) 8px 16px,
+    var(--color-ink) 16px 24px,
+    var(--color-paper) 24px 32px
+  );
+}
+
+/** Filete doble de latón, como el marco de una placa antigua. */
+@utility rule-double {
+  border-block: 3px double var(--color-brass);
+}
+
+/** Línea de puntos entre un servicio y su precio (carta de precios). */
+@utility leader {
+  flex: 1;
+  min-width: 1.5rem;
+  border-bottom: 2px dotted currentColor;
+  opacity: 0.45;
+  transform: translateY(-0.3em);
+}
+
+/* El poste del logotipo gira despacio al pasar el ratón, solo si no se pide menos movimiento. */
+/* 45.25px en vertical = 32px en diagonal = un ciclo completo de la franja: el bucle no salta. */
+@keyframes stripe-scroll {
+  to {
+    background-position: 0 45.25px;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .group:hover .pole-spin {
+    animation: stripe-scroll 1.2s linear infinite;
+  }
+}
+
+/** Flecha propia para los `<select>` (la nativa cambia mucho entre navegadores). */
+@utility select-chevron {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2313261e' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.875rem center;
+  background-size: 1.25rem;
+}
